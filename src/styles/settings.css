@@ -1,0 +1,329 @@
+/* =====================================================
+   ZELOOS - CONFIGURAÇÕES
+===================================================== */
+
+.settings-page {
+  min-height: 100vh;
+
+  background: #f8f7f3;
+
+  color: #171923;
+
+  font-family:
+    Arial,
+    Helvetica,
+    sans-serif;
+}
+
+
+/* =====================================================
+   HEADER
+===================================================== */
+
+.settings-header {
+  width: 100%;
+
+  max-width: 760px;
+
+  margin: 0 auto;
+
+  padding: 28px 34px 20px;
+
+  display: grid;
+
+  grid-template-columns: 52px 1fr 52px;
+
+  align-items: center;
+}
+
+.settings-header h1 {
+  margin: 0;
+
+  text-align: center;
+
+  font-size: 25px;
+
+  font-weight: 750;
+
+  letter-spacing: -0.5px;
+}
+
+.settings-back {
+  width: 52px;
+  height: 52px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  border: none;
+
+  border-radius: 50%;
+
+  background: #e5e3df;
+
+  color: #171923;
+
+  cursor: pointer;
+
+  transition: 0.2s ease;
+}
+
+.settings-back:hover {
+  background: #dcdad6;
+
+  transform: scale(1.03);
+}
+
+.settings-header-space {
+  width: 52px;
+}
+
+
+/* =====================================================
+   CONTAINER
+===================================================== */
+
+.settings-container {
+  width: 100%;
+
+  max-width: 760px;
+
+  margin: 0 auto;
+
+  padding: 30px 34px 50px;
+}
+
+
+/* =====================================================
+   SEÇÕES
+===================================================== */
+
+.settings-section {
+  margin-bottom: 48px;
+}
+
+.settings-section h2 {
+  margin: 0 0 22px;
+
+  font-size: 21px;
+
+  font-weight: 750;
+
+  letter-spacing: -0.3px;
+}
+
+
+/* =====================================================
+   CARD
+===================================================== */
+
+.settings-card {
+  overflow: hidden;
+
+  width: 100%;
+
+  background: #ffffff;
+
+  border: 1px solid #deddda;
+
+  border-radius: 18px;
+
+  box-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.02);
+}
+
+
+/* =====================================================
+   ITEM
+===================================================== */
+
+.settings-item {
+  width: 100%;
+
+  min-height: 102px;
+
+  padding: 0 34px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  border: none;
+
+  background: transparent;
+
+  color: #171923;
+
+  cursor: pointer;
+
+  text-align: left;
+
+  transition: background 0.18s ease;
+}
+
+.settings-item:hover {
+  background: #f8f8f7;
+}
+
+.settings-item-left {
+  display: flex;
+
+  align-items: center;
+
+  gap: 27px;
+}
+
+.settings-item-left svg {
+  flex-shrink: 0;
+
+  stroke-width: 1.8;
+}
+
+.settings-item-left span {
+  font-size: 21px;
+
+  font-weight: 700;
+
+  letter-spacing: -0.2px;
+}
+
+.settings-chevron {
+  color: #a3a3a3;
+
+  opacity: 0.7;
+}
+
+
+/* =====================================================
+   DIVISOR
+===================================================== */
+
+.settings-divider {
+  height: 1px;
+
+  margin: 0 34px;
+
+  background: #deddda;
+}
+
+
+/* =====================================================
+   VERSÃO
+===================================================== */
+
+.settings-version {
+  margin-top: 8px;
+
+  margin-bottom: 35px;
+
+  color: #656565;
+
+  font-size: 18px;
+
+  line-height: 1.5;
+}
+
+
+/* =====================================================
+   SAIR
+===================================================== */
+
+.settings-logout {
+  display: flex;
+
+  align-items: center;
+
+  gap: 9px;
+
+  padding: 0;
+
+  border: none;
+
+  background: transparent;
+
+  color: #171923;
+
+  font-size: 18px;
+
+  font-weight: 700;
+
+  text-decoration: underline;
+
+  text-underline-offset: 3px;
+
+  cursor: pointer;
+}
+
+.settings-logout:hover {
+  opacity: 0.65;
+}
+
+
+/* =====================================================
+   RESPONSIVO
+===================================================== */
+
+@media (max-width: 600px) {
+
+  .settings-header {
+    padding:
+      20px
+      20px
+      15px;
+  }
+
+  .settings-header h1 {
+    font-size: 22px;
+  }
+
+  .settings-back {
+    width: 46px;
+    height: 46px;
+  }
+
+  .settings-container {
+    padding:
+      28px
+      20px
+      40px;
+  }
+
+  .settings-section {
+    margin-bottom: 40px;
+  }
+
+  .settings-section h2 {
+    margin-bottom: 17px;
+
+    font-size: 19px;
+  }
+
+  .settings-item {
+    min-height: 86px;
+
+    padding:
+      0
+      22px;
+  }
+
+  .settings-item-left {
+    gap: 20px;
+  }
+
+  .settings-item-left span {
+    font-size: 18px;
+  }
+
+  .settings-divider {
+    margin: 0 22px;
+  }
+
+  .settings-version {
+    font-size: 16px;
+  }
+
+}

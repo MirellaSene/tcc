@@ -2,17 +2,29 @@ import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { User, Lock } from 'lucide-react';
 import './../styles/login.css';
+import { api, saveSession, type Usuario } from '../services/api';
 
 const Login: React.FC = () => {
   const navigate = useNavigate();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Login:', { username, password });
-    alert('Login realizado com sucesso!');
-    navigate('/checkout'); 
+    setLoading(true);
+    try {
+      const { token, usuario } = await api<{ token: string; usuario: Usuario }>('/auth/login', {
+        method: 'POST',
+        body: { username, password },
+      });
+      saveSession(token, usuario);
+      navigate('/checkout');
+    } catch (err) {
+      alert((err as Error).message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -64,7 +76,9 @@ const Login: React.FC = () => {
                 </label>
                 <Link to="#" className="forgot-password">Forgot password?</Link>
               </div>
-              <button type="submit" className="login-submit">Sign In</button>
+              <button type="submit" className="login-submit" disabled={loading}>
+                {loading ? 'Entrando...' : 'Sign In'}
+              </button>
             </form>
             
             <div className="or-divider">

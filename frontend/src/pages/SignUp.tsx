@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { User, Mail, Lock, CheckCircle } from 'lucide-react';
 import './../styles/signup.css';
+import { api, saveSession, type Usuario } from '../services/api';
 
 const SignUp: React.FC = () => {
   const navigate = useNavigate();
@@ -9,16 +10,28 @@ const SignUp: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (password !== confirmPassword) {
       alert('As senhas não coincidem!');
       return;
     }
-    console.log('Cadastro:', { username, email, password });
-    alert('Cadastro realizado com sucesso!');
-    navigate('/checkout');
+    setLoading(true);
+    try {
+      const { token, usuario } = await api<{ token: string; usuario: Usuario }>('/auth/register', {
+        method: 'POST',
+        body: { username, email, password },
+      });
+      saveSession(token, usuario);
+      alert('Cadastro realizado com sucesso!');
+      navigate('/checkout');
+    } catch (err) {
+      alert((err as Error).message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -84,7 +97,9 @@ const SignUp: React.FC = () => {
                   required
                 />
               </div>
-              <button type="submit" className="signup-submit">Create Account</button>
+              <button type="submit" className="signup-submit" disabled={loading}>
+                {loading ? 'Criando conta...' : 'Create Account'}
+              </button>
             </form>
             
             <div className="auth-footer">

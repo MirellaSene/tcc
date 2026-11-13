@@ -11,8 +11,10 @@ import {
 } from 'lucide-react';
 
 import './../styles/checkout.css';
+import { api, ApiError, getToken } from '../services/api';
 
 interface Plan {
+  id: number;
   name: string;
   price: string;
   period: string;
@@ -24,6 +26,7 @@ const Checkout: React.FC = () => {
 
   const [step, setStep] = useState(1);
   const [selectedPlan, setSelectedPlan] = useState(1);
+  const [loading, setLoading] = useState(false);
 
   const [formData, setFormData] = useState({
     cardNumber: '',
@@ -34,6 +37,7 @@ const Checkout: React.FC = () => {
 
   const plans: Plan[] = [
     {
+      id: 1,
       name: 'Mensal',
       price: 'R$ 49,90',
       period: '/mês',
@@ -44,6 +48,7 @@ const Checkout: React.FC = () => {
       ],
     },
     {
+      id: 2,
       name: 'Anual',
       price: 'R$ 499,00',
       period: '/ano',
@@ -56,6 +61,7 @@ const Checkout: React.FC = () => {
       ],
     },
     {
+      id: 3,
       name: 'Família',
       price: 'R$ 799,00',
       period: '/ano',
@@ -73,9 +79,7 @@ const Checkout: React.FC = () => {
 
   const today = new Date().toLocaleDateString('pt-BR');
 
-  const [receiptNumber] = useState(
-    `ZL-${Date.now().toString().slice(-8)}`
-  );
+  const [receiptNumber, setReceiptNumber] = useState('');
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement>
@@ -93,10 +97,37 @@ const Checkout: React.FC = () => {
     setStep(2);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    setStep(3);
+    if (!getToken()) {
+      alert('Faça login para finalizar a assinatura.');
+      navigate('/login');
+      return;
+    }
+
+    setLoading(true);
+    try {
+      const assinatura = await api<{ numero_comprovante: string }>('/assinaturas', {
+        method: 'POST',
+        body: {
+          planoId: currentPlan.id,
+          cartao: {
+            numero: formData.cardNumber,
+            nome: formData.cardName,
+            validade: formData.expiry,
+            cvv: formData.cvv,
+          },
+        },
+      });
+      setReceiptNumber(assinatura.numero_comprovante);
+      setStep(3);
+    } catch (err) {
+      alert((err as Error).message);
+      if (err instanceof ApiError && err.status === 401) navigate('/login');
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleDownloadReceipt = () => {
@@ -499,8 +530,9 @@ const Checkout: React.FC = () => {
                 <button
                   type="submit"
                   className="checkout-submit-btn"
+                  disabled={loading}
                 >
-                  Pagar {currentPlan.price}
+                  {loading ? 'Processando...' : `Pagar ${currentPlan.price}`}
                 </button>
 
 

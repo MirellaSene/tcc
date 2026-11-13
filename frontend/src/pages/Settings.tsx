@@ -14,6 +14,7 @@ import {
 } from 'lucide-react';
 
 import '../styles/settings.css';
+import { clearSession } from '../services/api';
 
 const Settings: React.FC = () => {
   const navigate = useNavigate();
@@ -246,7 +247,10 @@ const Settings: React.FC = () => {
 
         <button
           className="settings-logout"
-          onClick={() => navigate('/login')}
+          onClick={() => {
+            clearSession();
+            navigate('/login');
+          }}
         >
 
           <LogOut size={20} />
